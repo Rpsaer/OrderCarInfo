@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.world.ordercar.mapper.LoginMapper">
+
+    <select id="managerSelectAllPlaceInfo" resultType="com.world.ordercar.entity.OrderCarEntity">
+        select *
+        from sys_order
+        where can_order = 0
+           or can_order = 1
+    </select>
+
+    <select id="userSelectAllPlaceInfo" resultType="com.world.ordercar.entity.OrderCarEntity">
+        select *
+        from sys_order
+        where can_order = 0
+    </select>
+
+    <update id="updateOrderInfo" parameterType="com.world.ordercar.entity.OrderCarEntity">
+        update sys_order
+        <set>
+            can_order = 1 , user = #{name}
+        </set>
+        <where>
+            license_num = #{licenseNum}
+            and holder = #{holder}
+        </where>
+    </update>
+
+</mapper>

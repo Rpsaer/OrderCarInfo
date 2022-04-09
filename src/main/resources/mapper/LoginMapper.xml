@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.world.ordercar.mapper.LoginMapper">
-    <!--    <resultMap id="BaseResultMap" type="com.example.jiang.demo.entity.User">-->
-    <!--        <id column="id" jdbcType="INTEGER" property="id" />-->
-    <!--        <result column="account" jdbcType="VARCHAR" property="userName" />-->
-    <!--        <result column="password" jdbcType="VARCHAR" property="password" />-->
-    <!--    </resultMap>-->
+        <resultMap id="BaseResultMap" type="com.world.ordercar.entity.LoginEntity">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="account" jdbcType="VARCHAR" property="account" />
+            <result column="name" jdbcType="VARCHAR" property="name" />
+            <result column="password" jdbcType="VARCHAR" property="password" />
+            <result column="role" jdbcType="VARCHAR" property="role" />
+            <result column="holder_phone" jdbcType="INTEGER" property="holderPhone" />
+            <result column="sex" jdbcType="INTEGER" property="sex" />
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        </resultMap>
 
     <!--    查询所有用户账号信息-->
-    <select id="selectAll" resultType="com.world.ordercar.entity.LoginEntity">
-        select * from sys_user
+    <select id="selectAll" resultMap="BaseResultMap" >
+        select account,password from sys_user where account = #{account} and password = #{password}
+    </select>
+
+
+    <select id="selectName" resultType="com.world.ordercar.entity.LoginEntity">
+        select name from sys_user where account = #{account}
     </select>
 
 
