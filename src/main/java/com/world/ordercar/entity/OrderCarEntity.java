@@ -1,14 +1,16 @@
 package com.world.ordercar.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
+@TableName("sys_order")
 public class OrderCarEntity {
 
     private int id;
     private String license_num;
-    private int holder_phone;
+    private long holder_phone;
     private String holder;
     private String user;
     private int user_sex;
@@ -36,11 +38,11 @@ public class OrderCarEntity {
         this.license_num = license_num;
     }
 
-    public int getHolder_phone() {
+    public long getHolder_phone() {
         return holder_phone;
     }
 
-    public void setHolder_phone(int holder_phone) {
+    public void setHolder_phone(long holder_phone) {
         this.holder_phone = holder_phone;
     }
 

@@ -20,7 +20,7 @@
 
 
     <select id="selectName" resultType="com.world.ordercar.entity.LoginEntity">
-        select name from sys_user where account = #{account}
+        select * from sys_user where account = #{account}
     </select>
 
 

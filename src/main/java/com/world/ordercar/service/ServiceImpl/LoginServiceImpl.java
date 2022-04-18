@@ -1,5 +1,8 @@
 package com.world.ordercar.service.ServiceImpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import com.world.ordercar.entity.LoginEntity;
 import com.world.ordercar.entity.OrderCarEntity;
 import com.world.ordercar.mapper.LoginMapper;
@@ -9,10 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> implements LoginService {
 
     @Resource
     private LoginMapper loginMapper;
@@ -37,6 +43,36 @@ public class LoginServiceImpl implements LoginService {
         LoginEntity body = loginMapper.selectName(account);
         loginMapper.updateOrderInfo(body.getName(), licenseNum, holder);
     }
+
+    @Override
+    public void openUserCarInfo(String account,String licenseNum,long holderPhone) throws ParseException {
+        LoginEntity item = loginMapper.selectName(account);
+        OrderCarEntity userInfo = new OrderCarEntity();
+        userInfo.setUser("暂未开放使用");
+        userInfo.setCar_order(3);
+        userInfo.setUser_sex(item.getSex());
+        userInfo.setHolder(item.getName());
+        userInfo.setLicense_num(licenseNum);
+        userInfo.setHolder_phone(holderPhone);
+        Date nowDay = new Date();
+        String str = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sf = new SimpleDateFormat(str);
+        Date now = sf.parse(sf.format(nowDay));
+        userInfo.setCreate_time(now);
+        userInfo.setUpdate_time(now);
+        loginMapper.insert(userInfo);
+    }
+
+    @Override
+    public List<OrderCarEntity> checkAllOpenInfo(){
+        QueryWrapper<OrderCarEntity> user = new QueryWrapper<>();
+        user.eq("can_order",3);
+        List<OrderCarEntity> list = loginMapper.selectList(user);
+        return list;
+    }
+
+
+
 
 
 }
