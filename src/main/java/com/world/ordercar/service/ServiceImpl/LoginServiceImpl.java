@@ -39,9 +39,9 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> i
 
     @Override
     @Transactional
-    public void orderCarPlace(String account, String holder, String licenseNum) {
-        LoginEntity body = loginMapper.selectName(account);
-        loginMapper.updateOrderInfo(body.getName(), licenseNum, holder);
+    public void orderCarPlace( String holder, String licenseNum) {
+//        LoginEntity body = loginMapper.selectName(account);
+        loginMapper.updateOrderInfo( licenseNum, holder);
     }
 
     @Override
@@ -65,9 +65,9 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> i
 
     @Override
     public List<OrderCarEntity> checkAllOpenInfo(){
-        QueryWrapper<OrderCarEntity> user = new QueryWrapper<>();
-        user.eq("can_order",3);
-        List<OrderCarEntity> list = loginMapper.selectList(user);
+//        QueryWrapper<OrderCarEntity> user = new QueryWrapper<>();
+//        user.eq("can_order",3);
+        List<OrderCarEntity> list = loginMapper.selectLists();
         return list;
     }
 

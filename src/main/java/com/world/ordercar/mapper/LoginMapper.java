@@ -19,7 +19,8 @@ public interface LoginMapper extends BaseMapper<OrderCarEntity> {
 
     LoginEntity selectName(@Param(value = "account") String account);
 
-    void updateOrderInfo(@Param(value = "name") String name, @Param(value = "licenseNum") String licenseNum, @Param(value = "holder") String holder);
+    void updateOrderInfo( @Param(value = "licenseNum") String licenseNum, @Param(value = "holder") String holder);
 
+    List<OrderCarEntity> selectLists();
 
 }

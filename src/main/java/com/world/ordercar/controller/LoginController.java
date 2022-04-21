@@ -5,16 +5,14 @@ import com.world.ordercar.entity.LoginEntity;
 import com.world.ordercar.entity.OrderCarEntity;
 import com.world.ordercar.service.LoginService;
 import com.world.ordercar.util.Result;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/car")
@@ -25,27 +23,14 @@ public class LoginController {
 
 
     /**
-     * @Description 登录
-     * @Author
-     * @Date 2022/4/9 10:16
-     */
-    @PostMapping(value = "/login")
-    public Result tologin(@RequestParam String account, @RequestParam String password) {
-        List<LoginEntity> list = loginService.selectAll(account, password);
-        if (list.size() == 0) return new Result(999, "用户不存在", -1);
-        return new Result(200, "success", list.get(0).getRole());
-    }
-
-
-    /**
      * @Description 查询当前车位
      * @Author
      * @Date 2022/4/9 10:17
      */
-    @PostMapping(value = "/check")
+    @GetMapping(value = "/check")
     public Result toCheck(@RequestParam int role) {
         List<OrderCarEntity> list = loginService.selectAllPlaceInfo(role);
-        return new Result(200, "success", role, list);
+        return new Result(0, "success", list);
     }
 
 
@@ -54,10 +39,10 @@ public class LoginController {
      * @Author
      * @Date 2022/4/9 11:28
      */
-    @PostMapping(value = "/order")
-    public Result toOrder(@RequestParam String account, @RequestParam String holder, @RequestParam String licenseNum) {
-        loginService.orderCarPlace(account, holder, licenseNum);
-        return new Result(200, "success", null);
+    @GetMapping(value = "/order")
+    public Result toOrder( @RequestParam String holder, @RequestParam String license_num) {
+        loginService.orderCarPlace( holder, license_num);
+        return new Result(0, "success", null);
     }
 
     /**
@@ -66,8 +51,8 @@ public class LoginController {
      * @Date 2022/4/18 11:29
      */
     @PostMapping(value = "/toOpen")
-    public Result openToOrder(@RequestParam String account, @RequestParam String licenseNum, @RequestParam long holderPhone) throws ParseException {
-        loginService.openUserCarInfo(account, licenseNum, holderPhone);
+    public Result openToOrder(@RequestParam String account, @RequestParam String license_num, @RequestParam long holder_phone) throws ParseException {
+        loginService.openUserCarInfo(account, license_num, holder_phone);
         return new Result(200, "success", null);
     }
 
@@ -76,9 +61,9 @@ public class LoginController {
      * @Author
      * @Date 2022/4/18 11:39
      */
-    @PostMapping(value = "/checkOpenInfo")
+    @GetMapping(value = "/checkOpenInfo")
     public Result checkOpenInfo() {
-        return new Result(200, "success", 0, loginService.checkAllOpenInfo());
+        return new Result(0, "success", loginService.checkAllOpenInfo());
     }
 
 
@@ -91,7 +76,7 @@ public class LoginController {
         orderCarEntity.setUpdate_time(now);
         orderCarEntity.setCar_order(0);
         loginService.saveOrUpdate(orderCarEntity);
-        return new Result(200, "success", null);
+        return new Result(0, "success", null);
     }
 
 

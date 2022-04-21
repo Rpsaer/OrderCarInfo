@@ -18,6 +18,15 @@
         from sys_order
         where can_order = 0
            or can_order = 1
+            or can_order = 3
+           or can_order =  2
+    </select>
+
+
+    <select id="selectLists" resultMap="BaseResultMap1">
+        select *
+        from sys_order
+        where can_order = 3
     </select>
 
     <select id="userSelectAllPlaceInfo" resultMap="BaseResultMap1">
@@ -29,7 +38,7 @@
     <update id="updateOrderInfo" parameterType="com.world.ordercar.entity.OrderCarEntity">
         update sys_order
         <set>
-            can_order = 1 , user = #{name}
+            can_order = 1
         </set>
         <where>
             license_num = #{licenseNum}

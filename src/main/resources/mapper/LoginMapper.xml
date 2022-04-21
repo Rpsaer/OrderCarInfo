@@ -15,7 +15,7 @@
 
     <!--    查询所有用户账号信息-->
     <select id="selectAll" resultMap="BaseResultMap" >
-        select account,password from sys_user where account = #{account} and password = #{password}
+        select * from sys_user where account = #{account} and password = #{password}
     </select>
 
 
