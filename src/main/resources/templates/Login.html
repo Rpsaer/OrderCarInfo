@@ -5,15 +5,26 @@
   <title>administer,welcome to login order-car system!</title>
 
 </head>
-<body>
+<style type="text/css">
+  *{
+    padding: 0;
+    margin: 0;
+  }
+  .big_box{
+    height: 100vh;
+    background: url('../pic/login.jpeg');
+    background-size: 100% 100%;
+  }
+</style>
+<body class="big_box">
 <form method="post" action="login" style="text-align: center">
   <div style="margin-bottom: 300px"></div>
-  <label>welcome! administer!</label>
+  <label style="color: #92B8B1">welcome! administer!</label>
   <p>
-  <div>请输入账号</div>
+  <div style="color: #92B8B1">请输入账号</div>
   <input type="text" value="" name="account" id="account">
   </p>
-  <div>请输入密码</div>
+  <div style="color: #92B8B1">请输入密码</div>
   <input type="text" value="" name="password" id="password">
   <p>
     <input type="submit" value="登录" >

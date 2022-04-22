@@ -21,15 +21,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AllReqController {
 
     @RequestMapping("/login")
-    public String toLogin(){
+    public String toLogin() {
         return "Login";
     }
 
 
     @Resource
     private LoginService loginService;
-
-
 
 
     /**
@@ -41,31 +39,40 @@ public class AllReqController {
     public String tologin(@RequestParam String account, @RequestParam String password) {
         List<LoginEntity> list = loginService.selectAll(account, password);
         if (list.size() == 0) return "login";
-        return "index";
+        if (list.get(0).getRole() == 0) {
+            return "index2";
+        } else {
+            return "index";
+        }
+    }
+
+    @RequestMapping("index2")
+    public String index2(){
+        return "index2";
+    }
+
+    @RequestMapping("getListUser")
+    public String Get2(){
+        return "OrderCarListUser";
     }
 
 
+
     @RequestMapping("/index")
-    public String toIndex(){
+    public String toIndex() {
         return "index";
     }
 
 
     @RequestMapping("/getList")
-    public String Get(){
+    public String Get() {
         return "OrderCarList";
     }
 
     @RequestMapping("/getOpenList")
-    public String GetOpenInfo(){
+    public String GetOpenInfo() {
         return "ManCheckOpenInfo";
     }
-
-
-
-
-
-
 
 
 }

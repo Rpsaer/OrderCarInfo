@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.world.ordercar.mapper.LoginMapper">
     <resultMap id="BaseResultMap1" type="com.world.ordercar.entity.OrderCarEntity">
-        <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="license_num" jdbcType="VARCHAR" property="license_num" />
-        <result column="holder_phone" jdbcType="INTEGER" property="holder_phone" />
-        <result column="holder" jdbcType="VARCHAR" property="holder" />
-        <result column="user" jdbcType="VARCHAR" property="user" />
-        <result column="user_sex" jdbcType="INTEGER" property="user_sex" />
-        <result column="can_order" jdbcType="INTEGER" property="can_order" />
-        <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
-        <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="license_num" jdbcType="VARCHAR" property="license_num"/>
+        <result column="holder_phone" jdbcType="INTEGER" property="holder_phone"/>
+        <result column="holder" jdbcType="VARCHAR" property="holder"/>
+        <result column="user" jdbcType="VARCHAR" property="user"/>
+        <result column="user_sex" jdbcType="INTEGER" property="user_sex"/>
+        <result column="can_order" jdbcType="INTEGER" property="can_order"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="create_time"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="update_time"/>
     </resultMap>
 
     <select id="managerSelectAllPlaceInfo" resultMap="BaseResultMap1">
@@ -18,8 +18,8 @@
         from sys_order
         where can_order = 0
            or can_order = 1
-            or can_order = 3
-           or can_order =  2
+           or can_order = 3
+           or can_order = 2
     </select>
 
 
@@ -33,6 +33,7 @@
         select *
         from sys_order
         where can_order = 0
+           or can_order = 1
     </select>
 
     <update id="updateOrderInfo" parameterType="com.world.ordercar.entity.OrderCarEntity">
