@@ -37,6 +37,13 @@
            or (can_order = 3 and holder_phone = #{holderPhone})
     </select>
 
+    <select id="selectInfo" resultMap="BaseResultMap1">
+        select *
+        from sys_order
+        where license_num = #{licenseNum}
+          and holder = #{holder}
+    </select>
+
     <update id="updateOrderInfo" parameterType="com.world.ordercar.entity.OrderCarEntity">
         update sys_order
         <set>

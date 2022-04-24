@@ -43,10 +43,14 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> i
 
 
     @Override
-    @Transactional
-    public void orderCarPlace( String holder, String licenseNum) {
-//        LoginEntity body = loginMapper.selectName(account);
-        loginMapper.updateOrderInfo( licenseNum, holder);
+    public boolean orderCarPlace( String holder, String licenseNum) {
+        OrderCarEntity orderCarEntity= loginMapper.selectInfo(licenseNum,holder);
+        if (orderCarEntity.getCar_order()!=0){
+            return false;
+        }else{
+            loginMapper.updateOrderInfo( licenseNum, holder);
+            return true;
+        }
     }
 
     @Override

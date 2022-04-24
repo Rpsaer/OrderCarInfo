@@ -9,6 +9,7 @@ public class Result {
     String msg;
     Object data;
     int role;
+    int status;
     List<OrderCarEntity> parking_info;
 
     public Result() {

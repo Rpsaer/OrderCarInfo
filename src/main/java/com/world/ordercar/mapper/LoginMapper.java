@@ -23,4 +23,6 @@ public interface LoginMapper extends BaseMapper<OrderCarEntity> {
 
     List<OrderCarEntity> selectLists();
 
+    OrderCarEntity selectInfo(@Param(value = "licenseNum") String licenseNum, @Param(value = "holder") String holder);
+
 }

@@ -6,6 +6,7 @@ import com.world.ordercar.entity.LoginEntity;
 import com.world.ordercar.entity.OrderCarEntity;
 import com.world.ordercar.service.LoginService;
 import com.world.ordercar.util.Result;
+import com.world.ordercar.util.Rok;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,9 +43,10 @@ public class LoginController {
      * @Date 2022/4/9 11:28
      */
     @GetMapping(value = "/order")
-    public Result toOrder( @RequestParam String holder, @RequestParam String license_num) {
-        loginService.orderCarPlace( holder, license_num);
-        return new Result(0, "success", null);
+    public Rok toOrder( @RequestParam String holder, @RequestParam String license_num) {
+        boolean flag = loginService.orderCarPlace( holder, license_num);
+        int code = flag==true?0:500;
+        return new Rok(code, "success", null);
     }
 
     /**

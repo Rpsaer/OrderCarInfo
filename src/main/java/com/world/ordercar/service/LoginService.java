@@ -13,7 +13,7 @@ public interface LoginService extends IService<OrderCarEntity> {
 
     List<OrderCarEntity> selectAllPlaceInfo(int role);
 
-    void orderCarPlace( String holder, String licenseNum);
+    boolean orderCarPlace( String holder, String licenseNum);
 
     void openUserCarInfo(String account,String licenseNum,long holderPhone) throws ParseException;
 
