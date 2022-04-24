@@ -15,7 +15,7 @@ public interface LoginMapper extends BaseMapper<OrderCarEntity> {
 
     List<OrderCarEntity> managerSelectAllPlaceInfo();
 
-    List<OrderCarEntity> userSelectAllPlaceInfo();
+    List<OrderCarEntity> userSelectAllPlaceInfo(@Param(value = "holderPhone")long holderPhone);
 
     LoginEntity selectName(@Param(value = "account") String account);
 

@@ -34,6 +34,7 @@
         from sys_order
         where can_order = 0
            or can_order = 1
+           or (can_order = 3 and holder_phone = #{holderPhone})
     </select>
 
     <update id="updateOrderInfo" parameterType="com.world.ordercar.entity.OrderCarEntity">

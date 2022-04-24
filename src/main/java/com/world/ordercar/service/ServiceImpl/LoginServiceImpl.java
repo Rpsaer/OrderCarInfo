@@ -3,6 +3,7 @@ package com.world.ordercar.service.ServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sun.org.apache.xpath.internal.operations.Or;
+import com.world.ordercar.config.MapCofig;
 import com.world.ordercar.entity.LoginEntity;
 import com.world.ordercar.entity.OrderCarEntity;
 import com.world.ordercar.mapper.LoginMapper;
@@ -23,6 +24,9 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> i
     @Resource
     private LoginMapper loginMapper;
 
+    @Autowired
+    private MapCofig mapCofig;
+
     @Override
     public List<LoginEntity> selectAll(String account, String password) {
         return loginMapper.selectAll(account, password);
@@ -30,10 +34,11 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> i
 
     @Override
     public List<OrderCarEntity> selectAllPlaceInfo(int role) {
+        long phone = mapCofig.map.get("account").getHolderPhone();
         if (role == 1) {
             return loginMapper.managerSelectAllPlaceInfo();
         }
-        return loginMapper.userSelectAllPlaceInfo();
+        return loginMapper.userSelectAllPlaceInfo(phone);
     }
 
 
