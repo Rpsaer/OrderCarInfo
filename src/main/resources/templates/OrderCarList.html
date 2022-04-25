@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="layui-form-item" id="sub">
+    <div class="layui-form-item" id="sub" style="margin-left:200px ">
         <button style="" class="layui-btn" type="button" lay-submit lay-filter="demo2" id="addsub">提交</button>
     </div>
 
@@ -46,7 +46,7 @@
 <!--修改的from表单 -->
 <form class="layui-form" action="" id="updataForm" style="display:none" lay-filter="updata"
       enctype="multipart/form-data">
-    <div class="layui-form-item" style="display:none">
+    <div class="layui-form-item" >
         <label class="layui-form-label">id</label>
         <div class="layui-input-block">
             <input type="text" id="id" name="id" lay-verify="id" autocomplete="off" placeholder="用户名"
@@ -76,6 +76,14 @@
         </div>
     </div>
 
+    <div class="layui-form-item">
+        <label class="layui-form-label">预定状态</label>
+        <div class="layui-input-block">
+            <input type="text" id="can_order" name="can_order" lay-verify="can_order" autocomplete="off" placeholder="0:未预定 1:已预定 3:审批中"
+                   class="layui-input" >
+        </div>
+    </div>
+
     <!--     <div class="layui-form-item">-->
     <!--      <label class="layui-form-label">当前租用者</label>-->
     <!--      <div class="layui-input-block">-->
@@ -84,7 +92,7 @@
     <!--    </div>-->
     <div class="layui-form-item" id="sub">
         <button style="margin-left:200px" class="layui-btn" type="button" lay-submit lay-filter="demo3" id="updatasub">
-            预定
+            确认
         </button>
     </div>
 </form>
@@ -101,8 +109,18 @@
     </div>
 </script>
 
+<!--<script type="text/html" id="selectGxmc" >-->
+<!--    <select name='selectName' lay-verify='selectVerify' lay-search=''">-->
+<!--    <option value=""></option>-->
+<!--    <option value="0">未预定</option>-->
+<!--    <option value="1">已预定</option>-->
+<!--    </select>-->
+<!--</script>-->
+
+
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">预定</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 
@@ -114,8 +132,8 @@
     layui.use('table', function () {
         var table = layui.table;
 
-        var pagecount;
-        page();
+        var pagecount = 15;
+        // page();
 
         function page() {
             $.ajax({
@@ -125,13 +143,10 @@
                 async: false,
                 success: function (data) {
                     pagecount = data.count;
-                    //console.log(data.count)
-                    console.log(pagecount)
                 }
             });
         }
 
-        console.log(pagecount);
 
 
         table.render({
@@ -148,9 +163,8 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true}
                 , {field: 'license_num', title: '车位号', width: 120, sort: true}
-                , {field: 'holder_phone', title: '手机号', width: 100, sort: true}
+                , {field: 'holder_phone', title: '手机号', width: 130, sort: true}
                 , {field: 'holder', title: '持有者', width: 100, sort: true}
-                // ,{field:'user', title:'当前租用者', width:100, sort: true}
                 , {
                     field: 'user_sex', title: '性别', width: 100, sort: true, templet: function (d) {
                         if (d.user_sex == 1) {
@@ -168,6 +182,10 @@
                             return '未被预定'
                         } else if (d.can_order == 3) {
                             return "审批中"
+                        } else if (d.can_order == 2) {
+                            return "审批不通过"
+                        } else if (d.can_order == 4){
+                            return "预留暂未放"
                         }
                     }
                 }
@@ -256,14 +274,14 @@
             //修改的表单取值
             form.on('submit(demo3)', function (data) {
                 $.ajax({
-                    url: 'http://localhost:8080/car/order',
+                    url: 'http://localhost:8080/car/updateInfo',
                     method: 'get',
                     data: data.field,
                     dataType: 'JSON',
                     success: function (res) {
                         if (res.status = '0') {
                             console.log(res);
-                            layer.msg("预定成功");
+                            layer.msg("修改成功");
                             $("#updataForm")[0].reset();
                             form.render();
                             table.reload('test', {
@@ -310,7 +328,7 @@
 //删除函数
         function deleteById(index) {
 
-            var url = "http://localhost:8080/newSystem/usersDeleteServlet";
+            var url = "http://localhost:8080/car/deleteInfo";
             $.ajax({
                 type: "get", //指定提交的类型 get对应 doGet()方法，post--->doPost()犯法
                 url: url,    //传输地址的URL
@@ -331,7 +349,7 @@
 
             layer_index = layer.open({
                 type: 1,  //可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                title: "预定车位确认", //数组第二项可以写任意css样式；如果你不想显示标题栏，你可以title: false
+                title: "编辑信息", //数组第二项可以写任意css样式；如果你不想显示标题栏，你可以title: false
                 area: ['500px', '400px'], //所打开页面大小
                 content: $("#updataForm"), //内容
                 //将数据显示在框上边
@@ -352,9 +370,8 @@
         //监听行工具事件
         table.on('tool(test)', function (obj) {
             var data = obj.data;
-            //console.log(obj)
             if (obj.event === 'del') {
-                layer.confirm('该用户确定办理退房？', function (index) {
+                layer.confirm('确定删除该车位信息？', function (index) {
                     obj.del();
                     deleteById(data.id);
                     layer.close(index);

@@ -37,8 +37,8 @@
         </div>
     </div>
 
-    <div class="layui-form-item" id="sub">
-        <button style="" class="layui-btn" type="button" lay-submit lay-filter="demo2" id="addsub">提交</button>
+    <div class="layui-form-item" id="sub" style="margin-left:200px ">
+        <button style="" class="layui-btn" type="button" lay-submit lay-filter="demo2" id="addsub" >提交</button>
     </div>
 
 </form>
@@ -82,8 +82,8 @@
     <!--        <input type="text" id="user" name="user" lay-verify="user" autocomplete="off" placeholder="当前租用者" class="layui-input">-->
     <!--      </div>-->
     <!--    </div>-->
-    <div class="layui-form-item" id="sub">
-        <button style="margin-left:200px" class="layui-btn" type="button" lay-submit lay-filter="demo3" id="updatasub">
+    <div class="layui-form-item" id="sub" style="margin-left:auto;margin-right:auto; ">
+        <button style="margin-left:200px" class="layui-btn" type="button" lay-submit lay-filter="demo3" id="updatasub" >
             预定
         </button>
     </div>
@@ -125,8 +125,6 @@
                 async: false,
                 success: function (data) {
                     pagecount = data.count;
-                    //console.log(data.count)
-                    console.log(pagecount)
                 }
             });
         }
@@ -168,6 +166,8 @@
                             return '未被预定'
                         } else if (d.can_order == 3) {
                             return "审批中"
+                        } else if (d.can_order == 2) {
+                            return "审批不通过"
                         }
                     }
                 }

@@ -5,6 +5,7 @@ import com.world.ordercar.entity.LoginEntity;
 import com.world.ordercar.entity.OrderCarEntity;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 public interface LoginService extends IService<OrderCarEntity> {
@@ -19,4 +20,9 @@ public interface LoginService extends IService<OrderCarEntity> {
 
     List<OrderCarEntity> checkAllOpenInfo();
 
+    List<OrderCarEntity> selectById(int id);
+
+    void refuseOrderInfo(int id) throws ParseException;
+
+    void editOrderInfo(int canOrderId, int id, Date now);
 }

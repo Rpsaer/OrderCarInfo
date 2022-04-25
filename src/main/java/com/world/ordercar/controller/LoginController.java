@@ -1,6 +1,7 @@
 package com.world.ordercar.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.world.ordercar.config.MapCofig;
 import com.world.ordercar.entity.LoginEntity;
 import com.world.ordercar.entity.OrderCarEntity;
@@ -8,6 +9,7 @@ import com.world.ordercar.service.LoginService;
 import com.world.ordercar.util.Result;
 import com.world.ordercar.util.Rok;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -71,6 +73,11 @@ public class LoginController {
     }
 
 
+    /**
+    * @Description 审批通过
+    * @Author
+    * @Date   2022/4/25 12:06
+    */
     @PostMapping(value = "/dealOpenInfo")
     public Result dealOpenInfo(OrderCarEntity orderCarEntity) throws ParseException {
         Date nowDay = new Date();
@@ -78,8 +85,47 @@ public class LoginController {
         SimpleDateFormat sf = new SimpleDateFormat(str);
         Date now = sf.parse(sf.format(nowDay));
         orderCarEntity.setUpdate_time(now);
-        orderCarEntity.setCar_order(0);
+        orderCarEntity.setCan_order(0);
         loginService.saveOrUpdate(orderCarEntity);
+        return new Result(0, "success", null);
+    }
+
+    /**
+    * @Description 拒绝审批
+    * @Author
+    * @Date   2022/4/25 10:33
+    */
+    @GetMapping(value = "/refuseOpenInfo")
+    public Result refuseOpenInfo(int id) throws ParseException {
+        loginService.refuseOrderInfo(id);
+        return new Result(0, "success", null);
+    }
+
+    /**
+    * @Description 删除车位
+    * @Author
+    * @Date   2022/4/25 11:55
+    */
+    @GetMapping(value = "/deleteInfo")
+    public Result del(int id){
+        loginService.removeById(id);
+        return new Result(0, "success", null);
+    }
+
+    /**
+    * @Description  编辑车位信息
+    * @Author
+    * @Date   2022/4/25 12:05
+    */
+    @GetMapping(value = "/updateInfo")
+    public Result updateInfo(String can_order,OrderCarEntity orderCarEntity) throws ParseException {
+        Date nowDay = new Date();
+        String str = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sf = new SimpleDateFormat(str);
+        Date now = sf.parse(sf.format(nowDay));
+        orderCarEntity.setUpdate_time(now);
+        loginService.saveOrUpdate(orderCarEntity);
+        loginService.editOrderInfo(Integer.valueOf(can_order),orderCarEntity.getId(),now);
         return new Result(0, "success", null);
     }
 

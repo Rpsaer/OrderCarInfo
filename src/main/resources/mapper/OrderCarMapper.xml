@@ -20,13 +20,15 @@
            or can_order = 1
            or can_order = 3
            or can_order = 2
+           or can_order = 4
+        order by can_order
     </select>
 
 
     <select id="selectLists" resultMap="BaseResultMap1">
         select *
         from sys_order
-        where can_order = 3
+        where can_order = 3 or can_order = 4
     </select>
 
     <select id="userSelectAllPlaceInfo" resultMap="BaseResultMap1">
@@ -35,6 +37,8 @@
         where can_order = 0
            or can_order = 1
            or (can_order = 3 and holder_phone = #{holderPhone})
+           or (can_order = 2 and holder_phone = #{holderPhone})
+        order by can_order
     </select>
 
     <select id="selectInfo" resultMap="BaseResultMap1">
@@ -52,6 +56,35 @@
         <where>
             license_num = #{licenseNum}
             and holder = #{holder}
+        </where>
+    </update>
+
+
+    <select id="selectById" resultType="com.world.ordercar.entity.OrderCarEntity">
+        select *
+        from sys_order
+        where id = #{id}
+    </select>
+
+    <update id="refuseOrderInfo">
+        update sys_order
+        <set>
+            can_order = 2,
+            update_time =#{updateTime}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <update id="editOrderInfo">
+        update sys_order
+        <set>
+            can_order = #{canOrder},
+            update_time =#{updateTime}
+        </set>
+        <where>
+            id = #{id}
         </where>
     </update>
 

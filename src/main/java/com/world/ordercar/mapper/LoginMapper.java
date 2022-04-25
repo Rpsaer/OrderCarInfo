@@ -6,6 +6,7 @@ import com.world.ordercar.entity.OrderCarEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -24,5 +25,11 @@ public interface LoginMapper extends BaseMapper<OrderCarEntity> {
     List<OrderCarEntity> selectLists();
 
     OrderCarEntity selectInfo(@Param(value = "licenseNum") String licenseNum, @Param(value = "holder") String holder);
+
+    List<OrderCarEntity> selectById(@Param(value = "id")int id);
+
+    void refuseOrderInfo(@Param("updateTime")Date updateTime,@Param("id")int id);
+
+    void editOrderInfo(@Param("canOrder")int canOrder,@Param("updateTime")Date updateTime,@Param("id")int id);
 
 }

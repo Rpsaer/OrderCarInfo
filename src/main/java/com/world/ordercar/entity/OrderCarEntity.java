@@ -1,5 +1,6 @@
 package com.world.ordercar.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -9,16 +10,26 @@ import java.util.Date;
 public class OrderCarEntity {
 
     private int id;
+
+    @TableField("license_num")
     private String license_num;
+
+    @TableField("holder_phone")
     private long holder_phone;
     private String holder;
     private String user;
+
+    @TableField("user_sex")
     private int user_sex;
+
+//    @TableField("can_order")
     private int can_order;
 
+    @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date create_time;
 
+    @TableField("update_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date update_time;
 
@@ -70,12 +81,12 @@ public class OrderCarEntity {
         this.user_sex = user_sex;
     }
 
-    public int getCar_order() {
+    public int getCan_order() {
         return can_order;
     }
 
-    public void setCar_order(int car_order) {
-        this.can_order = car_order;
+    public void setCan_order(int can_order) {
+        this.can_order = can_order;
     }
 
     public Date getCreate_time() {

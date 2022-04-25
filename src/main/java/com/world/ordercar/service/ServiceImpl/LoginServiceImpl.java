@@ -1,16 +1,14 @@
 package com.world.ordercar.service.ServiceImpl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import com.world.ordercar.config.MapCofig;
 import com.world.ordercar.entity.LoginEntity;
 import com.world.ordercar.entity.OrderCarEntity;
 import com.world.ordercar.mapper.LoginMapper;
 import com.world.ordercar.service.LoginService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -45,7 +43,7 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> i
     @Override
     public boolean orderCarPlace( String holder, String licenseNum) {
         OrderCarEntity orderCarEntity= loginMapper.selectInfo(licenseNum,holder);
-        if (orderCarEntity.getCar_order()!=0){
+        if (orderCarEntity.getCan_order()!=0){
             return false;
         }else{
             loginMapper.updateOrderInfo( licenseNum, holder);
@@ -55,21 +53,40 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> i
 
     @Override
     public void openUserCarInfo(String account,String licenseNum,long holderPhone) throws ParseException {
+        int role = mapCofig.map.get("account").getRole();
         LoginEntity item = loginMapper.selectName(account);
-        OrderCarEntity userInfo = new OrderCarEntity();
-        userInfo.setUser("暂未开放使用");
-        userInfo.setCar_order(3);
-        userInfo.setUser_sex(item.getSex());
-        userInfo.setHolder(item.getName());
-        userInfo.setLicense_num(licenseNum);
-        userInfo.setHolder_phone(holderPhone);
-        Date nowDay = new Date();
-        String str = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat sf = new SimpleDateFormat(str);
-        Date now = sf.parse(sf.format(nowDay));
-        userInfo.setCreate_time(now);
-        userInfo.setUpdate_time(now);
-        loginMapper.insert(userInfo);
+        if (role==1){
+            OrderCarEntity userInfo = new OrderCarEntity();
+            userInfo.setUser("暂未开放使用");
+            userInfo.setCan_order(4);
+            userInfo.setUser_sex(item.getSex());
+            userInfo.setHolder(item.getName());
+            userInfo.setLicense_num(licenseNum);
+            userInfo.setHolder_phone(holderPhone);
+            Date nowDay = new Date();
+            String str = "yyyy-MM-dd HH:mm:ss";
+            SimpleDateFormat sf = new SimpleDateFormat(str);
+            Date now = sf.parse(sf.format(nowDay));
+            userInfo.setCreate_time(now);
+            userInfo.setUpdate_time(now);
+            loginMapper.insert(userInfo);
+        }else{
+            OrderCarEntity userInfo = new OrderCarEntity();
+            userInfo.setUser("暂未开放使用");
+            userInfo.setCan_order(3);
+            userInfo.setUser_sex(item.getSex());
+            userInfo.setHolder(item.getName());
+            userInfo.setLicense_num(licenseNum);
+            userInfo.setHolder_phone(holderPhone);
+            Date nowDay = new Date();
+            String str = "yyyy-MM-dd HH:mm:ss";
+            SimpleDateFormat sf = new SimpleDateFormat(str);
+            Date now = sf.parse(sf.format(nowDay));
+            userInfo.setCreate_time(now);
+            userInfo.setUpdate_time(now);
+            loginMapper.insert(userInfo);
+        }
+
     }
 
     @Override
@@ -80,6 +97,26 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, OrderCarEntity> i
         return list;
     }
 
+    @Override
+    public List<OrderCarEntity> selectById(int id){
+        return loginMapper.selectById(id);
+    }
+
+    @Override
+    public void refuseOrderInfo(int id) throws ParseException {
+        Date nowDay = new Date();
+        String str = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sf = new SimpleDateFormat(str);
+        Date now = sf.parse(sf.format(nowDay));
+        loginMapper.refuseOrderInfo(now,id);
+    }
+
+
+    @Override
+    public void editOrderInfo(int canOrderId, int id,Date now){
+        loginMapper.editOrderInfo(canOrderId,now,id);
+
+    }
 
 
 
